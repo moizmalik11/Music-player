@@ -74,7 +74,21 @@ function togglePlay() {
     }
 }
 
+function playMusic() {
+    isPlaying = true;
+    document.body.classList.add('playing');
+    playBtn.classList.replace('fa-play', 'fa-pause');
+    playBtn.setAttribute('title', 'Pause');
+    music.play();
+}
 
+function pauseMusic() {
+    isPlaying = false;
+    document.body.classList.remove('playing');
+    playBtn.classList.replace('fa-pause', 'fa-play');
+    playBtn.setAttribute('title', 'Play');
+    music.pause();
+}
 
 function loadMusic(song) {
     music.src = song.path;
