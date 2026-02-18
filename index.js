@@ -105,15 +105,19 @@ function loadMusic(song) {
 }
 
 function changeMusic(direction) {
-    let playlist = isShuffled ? shuffledPlaylist : songs;
-    
-    if (repeatMode === 'one') {
-        loadMusic(playlist[musicIndex]);
-    } else {
-        musicIndex = (musicIndex + direction + playlist.length) % playlist.length;
-        loadMusic(playlist[musicIndex]);
+    if (repeatMode === 'one' && direction === 0) {
+        loadMusic(songs[musicIndex]);
+        playMusic();
+        return;
     }
     
+    if (isShuffled) {
+        musicIndex = (musicIndex + direction + songs.length) % songs.length;
+    } else {
+        musicIndex = (musicIndex + direction + songs.length) % songs.length;
+    }
+    
+    loadMusic(songs[musicIndex]);
     playMusic();
 }
 
@@ -138,14 +142,9 @@ function toggleShuffle() {
     shuffleBtn.classList.toggle('active');
     
     if (isShuffled) {
+        // Create shuffled array
         shuffledPlaylist = [...songs];
         shuffleArray(shuffledPlaylist);
-        // Keep current song as first item
-        const currentSong = shuffledPlaylist.splice(musicIndex, 1)[0];
-        shuffledPlaylist.unshift(currentSong);
-        musicIndex = 0;
-    } else {
-        musicIndex = songs.findIndex(song => song.path === music.src.split('/').pop());
     }
     
     savePlayerState();
@@ -325,17 +324,20 @@ volumeIcon.addEventListener('click', () => {
 
 music.addEventListener('ended', () => {
     if (repeatMode === 'one') {
-        loadMusic(songs[musicIndex]);
+        // Repeat same song
+        music.currentTime = 0;
         playMusic();
     } else if (repeatMode === 'all') {
+        // Repeat all - go to next (will loop back to first after last)
         changeMusic(1);
     } else {
+        // No repeat - go to next if not last song
         if (musicIndex < songs.length - 1) {
             changeMusic(1);
         } else {
+            // Last song, stop playing
             pauseMusic();
-            musicIndex = 0;
-            loadMusic(songs[musicIndex]);
+            music.currentTime = 0;
         }
     }
 });
