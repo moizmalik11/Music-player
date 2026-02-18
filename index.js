@@ -17,6 +17,7 @@ const image = document.getElementById('cover'),
     closePlaylist = document.getElementById('close-playlist'),
     playlistContainer = document.getElementById('playlist'),
     playlistItems = document.getElementById('playlist-items'),
+    sidebarItems = document.getElementById('sidebar-items'),
     background = document.getElementById('bg-img');
 
 const music = new Audio();
@@ -57,6 +58,9 @@ function initializePlayer() {
     
     // Create playlist items
     renderPlaylist();
+    
+    // Create sidebar items
+    renderSidebar();
     
     // Load saved state from localStorage
     loadPlayerState();
@@ -228,8 +232,32 @@ function renderPlaylist() {
     });
 }
 
+function renderSidebar() {
+    sidebarItems.innerHTML = '';
+    songs.forEach((song, index) => {
+        const item = document.createElement('div');
+        item.className = `sidebar-item ${index === musicIndex ? 'active' : ''}`;
+        item.innerHTML = `
+            <img src="${song.cover}" alt="${song.displayName}">
+            <div class="sidebar-item-info">
+                <div class="sidebar-item-title">${song.displayName}</div>
+                <div class="sidebar-item-artist">${song.artist}</div>
+            </div>
+        `;
+        item.addEventListener('click', () => {
+            musicIndex = index;
+            loadMusic(songs[musicIndex]);
+            playMusic();
+        });
+        sidebarItems.appendChild(item);
+    });
+}
+
 function updateActivePlaylistItem() {
     document.querySelectorAll('.playlist-item').forEach((item, index) => {
+        item.classList.toggle('active', index === musicIndex);
+    });
+    document.querySelectorAll('.sidebar-item').forEach((item, index) => {
         item.classList.toggle('active', index === musicIndex);
     });
 }

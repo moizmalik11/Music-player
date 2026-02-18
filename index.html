@@ -15,12 +15,25 @@
         <img src="" id="bg-img">
     </div>
 
-    <div class="container">
-        <div class="top-bar">
-            <i class="fa-solid fa-angle-down" id="minimize"></i>
-            <span class="now-playing">NOW PLAYING</span>
-            <i class="fa-solid fa-bars" id="playlist-toggle"></i>
+    <div class="app-wrapper">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <i class="fa-solid fa-music"></i>
+                <h3>My Playlist</h3>
+            </div>
+            <div class="sidebar-items" id="sidebar-items">
+                <!-- Sidebar items will be added here dynamically -->
+            </div>
         </div>
+
+        <!-- Main Container -->
+        <div class="container">
+            <div class="top-bar">
+                <i class="fa-solid fa-angle-down" id="minimize"></i>
+                <span class="now-playing">NOW PLAYING</span>
+                <i class="fa-solid fa-bars" id="playlist-toggle"></i>
+            </div>
 
         <div class="player-wrapper">
             <div class="vinyl-animation">
@@ -66,6 +79,7 @@
             <div class="playlist-items" id="playlist-items">
                 <!-- Playlist items will be added here dynamically -->
             </div>
+        </div>
         </div>
     </div>
 
