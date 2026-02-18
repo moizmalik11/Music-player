@@ -1,0 +1,38 @@
+.background {
+    position: fixed;
+    width: 200%;
+    height: 200%;
+    top: -50%;
+    left: -50%;
+    z-index: -1;
+}
+
+.background img {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    min-width: 50%;
+    min-height: 50%;
+    filter: blur(50px) brightness(0.8);
+    opacity: 0.5;
+    transition: all 0.8s ease;
+}
+
+.app-wrapper {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    max-width: 1200px;
+    width: 100%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .app-wrapper {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
