@@ -97,12 +97,7 @@ function loadMusic(song) {
     image.src = song.cover;
     background.src = song.cover;
     
-    // Update active song in playlist
-    updateActivePlaylistItem();
-    
-    // Save current song to localStorage
-    savePlayerState();
-}
+
 
 function changeMusic(direction) {
     if (repeatMode === 'one' && direction === 0) {
