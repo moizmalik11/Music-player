@@ -1,11 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-    --primary-color: #f2f2f2;
+    --primary-color: #ffffff;
     --secondary-color: #212121;
-    --accent-color: #8e44ad;
-    --glass-bg: rgba(255, 255, 255, 0.1);
-    --glass-border: rgba(255, 255, 255, 0.2);
+    --accent-color: #ff6b6b;
+    --accent-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --glass-bg: rgba(255, 255, 255, 0.08);
+    --glass-border: rgba(255, 255, 255, 0.18);
+    --shadow-color: rgba(0, 0, 0, 0.3);
 }
 
 * {
@@ -25,8 +27,17 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(45deg, #8e44ad, #3498db);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    background-size: 200% 200%;
+    animation: gradientShift 15s ease infinite;
     color: var(--primary-color);
+    overflow: hidden;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .background {
@@ -47,41 +58,69 @@ body {
     right: 0;
     min-width: 50%;
     min-height: 50%;
-    filter: blur(25px);
-    opacity: 0.6;
-    transition: all 0.5s ease;
+    filter: blur(50px) brightness(0.8);
+    opacity: 0.5;
+    transition: all 0.8s ease;
 }
 
 .container {
     background: var(--glass-bg);
-    backdrop-filter: blur(10px);
-    border: 1px solid var(--glass-border);
-    height: 600px;
-    width: 380px;
-    border-radius: 30px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-    transition: all 0.5s ease;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 2px solid var(--glass-border);
+    height: 650px;
+    width: 400px;
+    border-radius: 35px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35),
+                0 10px 30px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
     position: relative;
 }
 
+.container::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    animation: shimmer 8s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes shimmer {
+    0%, 100% { transform: translate(0%, 0%) rotate(0deg); opacity: 0.3; }
+    50% { transform: translate(-15%, -15%) rotate(180deg); opacity: 0.15; }
+}
+
 .container:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.3);
+    transform: translateY(-8px) scale(1.01);
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.45),
+                0 15px 40px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.3);
 }
 
 .top-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 1.5rem;
+    padding: 1.3rem 1.8rem;
     border-bottom: 1px solid var(--glass-border);
+    background: rgba(255, 255, 255, 0.03);
 }
 
 .now-playing {
-    font-size: 0.9rem;
-    font-weight: 500;
-    letter-spacing: 1px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    background: linear-gradient(90deg, #fff 0%, rgba(255, 255, 255, 0.8) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .vinyl-animation {
@@ -89,17 +128,38 @@ body {
     width: 100%;
     display: flex;
     justify-content: center;
-    padding: 2rem 0;
+    padding: 2.5rem 0 1.5rem 0;
+}
+
+.vinyl-animation::before {
+    content: '';
+    position: absolute;
+    width: 260px;
+    height: 260px;
+    background: radial-gradient(circle, rgba(102, 126, 234, 0.3) 0%, transparent 70%);
+    border-radius: 50%;
+    filter: blur(30px);
+    animation: pulse 3s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.1); opacity: 0.8; }
 }
 
 .player-img {
-    width: 250px;
-    height: 250px;
+    width: 260px;
+    height: 260px;
     position: relative;
     border-radius: 50%;
     overflow: hidden;
     animation: rotate 20s linear infinite;
     animation-play-state: paused;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4),
+                0 5px 15px rgba(0, 0, 0, 0.3),
+                inset 0 0 0 8px rgba(0, 0, 0, 0.2),
+                inset 0 0 0 10px rgba(255, 255, 255, 0.1);
+    border: 3px solid rgba(255, 255, 255, 0.15);
 }
 
 .playing .player-img {
@@ -111,14 +171,28 @@ body {
     to { transform: rotate(360deg); }
 }
 
+.player-img::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.5) 70%, transparent 100%);
+    border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    z-index: 10;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
 .player-img img {
     object-fit: cover;
     width: 100%;
     height: 100%;
     border-radius: 50%;
     opacity: 0;
-    transition: all 0.5s ease;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    transition: all 0.6s ease;
 }
 
 .player-img img.active {
@@ -127,95 +201,199 @@ body {
 
 .track-info {
     text-align: center;
-    padding: 1rem;
+    padding: 1.2rem 1.5rem 0.8rem;
 }
 
 h2 {
-    font-size: 1.4rem;
-    font-weight: 600;
+    font-size: 1.5rem;
+    font-weight: 700;
     margin-bottom: 0.5rem;
     color: var(--primary-color);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    letter-spacing: -0.5px;
 }
 
 h3 {
-    font-size: 1rem;
+    font-size: 1.05rem;
     font-weight: 400;
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 0.75);
+    text-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
 }
 
 .player-progress {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
     cursor: pointer;
-    margin: 1rem 1.5rem;
-    height: 4px;
-    width: calc(100% - 3rem);
+    margin: 1.2rem 1.8rem 0.5rem;
+    height: 6px;
+    width: calc(100% - 3.6rem);
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.player-progress::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
+    animation: progressShimmer 2s ease-in-out infinite;
+}
+
+@keyframes progressShimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
 }
 
 .progress {
-    background-color: var(--accent-color);
-    border-radius: 10px;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    border-radius: 12px;
     height: 100%;
     width: 0%;
     transition: width 0.1s linear;
+    position: relative;
+    box-shadow: 0 0 15px rgba(102, 126, 234, 0.6);
+}
+
+.progress::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 14px;
+    height: 14px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.player-progress:hover .progress::after {
+    opacity: 1;
 }
 
 .music-duration {
-    padding: 0 1.5rem;
+    padding: 0 1.8rem;
     display: flex;
     justify-content: space-between;
-    font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 500;
 }
 
 .volume-control {
     display: flex;
     align-items: center;
-    padding: 0 1.5rem;
-    margin: 1rem 0;
+    padding: 0 1.8rem;
+    margin: 1.2rem 0;
 }
 
 .volume-slider {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
     cursor: pointer;
-    height: 4px;
-    width: 100px;
-    margin-left: 0.8rem;
+    height: 5px;
+    width: 110px;
+    margin-left: 1rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .volume-progress {
-    background-color: var(--accent-color);
-    border-radius: 10px;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
     height: 100%;
     width: 100%;
     transition: width 0.1s linear;
+    box-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
 }
 
 .player-controls {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 1.5rem;
-    padding: 1rem 0;
+    gap: 1.8rem;
+    padding: 1.5rem 0;
+    margin-top: 0.5rem;
 }
 
 .fa-solid {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     color: var(--primary-color);
     cursor: pointer;
     user-select: none;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    position: relative;
+}
+
+.fa-solid::before {
+    position: relative;
+    z-index: 1;
 }
 
 .fa-solid:hover {
-    color: var(--accent-color);
-    transform: scale(1.1);
+    color: #fff;
+    transform: scale(1.15) translateY(-2px);
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+.fa-solid:active {
+    transform: scale(1.05);
+}
+
+.fa-solid.active {
+    color: #f093fb;
+    filter: drop-shadow(0 0 8px rgba(240, 147, 251, 0.6));
 }
 
 .play-button {
-    font-size: 2.5rem;
-    color: var(--accent-color);
+    font-size: 3rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4),
+                0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.play-button::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+    animation: playButtonShimmer 3s ease-in-out infinite;
+}
+
+@keyframes playButtonShimmer {
+    0%, 100% { transform: translate(0%, 0%); opacity: 0; }
+    50% { transform: translate(-10%, -10%); opacity: 1; }
+}
+
+.play-button:hover {
+    transform: scale(1.1) translateY(-3px);
+    box-shadow: 0 12px 35px rgba(102, 126, 234, 0.5),
+                0 6px 18px rgba(0, 0, 0, 0.3);
+}
+
+.play-button:active {
+    transform: scale(1.05);
 }
 
 .playlist {
@@ -224,10 +402,12 @@ h3 {
     right: -100%;
     width: 100%;
     height: 100%;
-    background: var(--glass-bg);
-    backdrop-filter: blur(10px);
-    transition: right 0.3s ease;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
+    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 10;
+    border-radius: 35px;
 }
 
 .playlist.active {
@@ -238,37 +418,95 @@ h3 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 1.5rem;
+    padding: 1.3rem 1.8rem;
     border-bottom: 1px solid var(--glass-border);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.playlist-header h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: white;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .playlist-items {
-    padding: 1rem 0;
+    padding: 0.8rem 0;
     overflow-y: auto;
     max-height: calc(100% - 60px);
+}
+
+.playlist-items::-webkit-scrollbar {
+    width: 6px;
+}
+
+.playlist-items::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+.playlist-items::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+}
+
+.playlist-items::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.4);
 }
 
 .playlist-item {
     display: flex;
     align-items: center;
-    padding: 0.8rem 1.5rem;
+    padding: 1rem 1.8rem;
     cursor: pointer;
-    transition: background 0.3s ease;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.playlist-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
 }
 
 .playlist-item:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.12);
+    padding-left: 2rem;
+}
+
+.playlist-item:hover::before {
+    transform: translateX(0);
 }
 
 .playlist-item.active {
-    background: rgba(142, 68, 173, 0.2);
+    background: linear-gradient(90deg, rgba(102, 126, 234, 0.25) 0%, rgba(118, 75, 162, 0.15) 100%);
+    border-left: 4px solid #667eea;
+    padding-left: calc(1.8rem - 4px);
+}
+
+.playlist-item.active::before {
+    transform: translateX(0);
 }
 
 .playlist-item img {
-    width: 40px;
-    height: 40px;
-    border-radius: 5px;
-    margin-right: 1rem;
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    margin-right: 1.2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.playlist-item:hover img {
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
 }
 
 .playlist-item-info {
@@ -276,11 +514,39 @@ h3 {
 }
 
 .playlist-item-title {
-    font-size: 0.9rem;
-    margin-bottom: 0.2rem;
+    font-size: 0.95rem;
+    margin-bottom: 0.3rem;
+    font-weight: 500;
+    color: white;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
 }
 
 .playlist-item-artist {
     font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 400;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+    .container {
+        width: 95%;
+        height: 90vh;
+        max-height: 650px;
+    }
+    
+    .player-img {
+        width: 220px;
+        height: 220px;
+    }
+    
+    h2 {
+        font-size: 1.3rem;
+    }
+    
+    .play-button {
+        width: 65px;
+        height: 65px;
+        font-size: 2.5rem;
+    }
 }
