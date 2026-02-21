@@ -39,7 +39,16 @@ function App() {
   const currentSong = songs[currentSongIndex];
 
   // Load saved state
-  
+  useEffect(() => {
+    const savedState = localStorage.getItem('musicPlayerState');
+    if (savedState) {
+      const state = JSON.parse(savedState);
+      setCurrentSongIndex(state.currentSong || 0);
+      setVolume(state.volume || 1);
+      setIsShuffled(state.isShuffled || false);
+      setRepeatMode(state.repeatMode || 'none');
+    }
+  }, []);
 
   // Save state
   useEffect(() => {
