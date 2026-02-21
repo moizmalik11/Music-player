@@ -5,7 +5,18 @@ import MusicPlayer from './components/MusicPlayer'
 import Playlist from './components/Playlist'
 
 const songs = [
-  ,
+  {
+    path: '/assets/1.mp3',
+    displayName: 'The Charmer\'s Call',
+    cover: '/assets/1.jpg',
+    artist: 'Hanu Dixit',
+  },
+  {
+    path: '/assets/2.mp3',
+    displayName: 'You Will Never See Me Coming',
+    cover: '/assets/2.jpg',
+    artist: 'NEFFEX',
+  },
   {
     path: '/assets/3.mp3',
     displayName: 'Intellect',
@@ -28,16 +39,7 @@ function App() {
   const currentSong = songs[currentSongIndex];
 
   // Load saved state
-  useEffect(() => {
-    const savedState = localStorage.getItem('musicPlayerState');
-    if (savedState) {
-      const state = JSON.parse(savedState);
-      setCurrentSongIndex(state.currentSong || 0);
-      setVolume(state.volume || 1);
-      setIsShuffled(state.isShuffled || false);
-      setRepeatMode(state.repeatMode || 'none');
-    }
-  }, []);
+  
 
   // Save state
   useEffect(() => {
